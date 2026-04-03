@@ -4,7 +4,31 @@ A personal weekly schedule planner that combines **SWI-Prolog** with **LLM natur
 
 Built as a Programming Paradigms (Prolog) university project.
 
----
+
+## Setup
+
+### Option A — Docker (recommended)
+
+```bash
+cp .env.example .env
+# Fill in ANTHROPIC_API_KEY and OPENWEATHERMAP_API_KEY
+
+docker compose up --build
+```
+
+Open `http://localhost:5000`
+
+### Option B — Local
+
+**Requirements:** SWI-Prolog, Python 3.10+
+
+```bash
+pip install -r requirements.txt
+cp .env.example .env
+# Fill in API keys
+
+python backend/app.py
+```
 
 ## Architecture
 
@@ -211,32 +235,7 @@ cd prolog && swipl -g run_tests -t halt tests.pl
 
 96 tests across 16 test suites covering: slot conversions, day helpers, knowledge base integrity, overlap detection, incompatibilities, color mapping, fixed events, task collection, priority sorting, slot validation (gym hours, consecutive days, daily limits, food-gym dependency), full schedule generation (no overlaps, sleep block, gym constraints), alternatives, statistics, warnings, edge cases (skip, deadlines, oneoff tasks).
 
----
 
-## Setup
-
-### Option A — Docker (recommended)
-
-```bash
-cp .env.example .env
-# Fill in ANTHROPIC_API_KEY and OPENWEATHERMAP_API_KEY
-
-docker compose up --build
-```
-
-Open `http://localhost:5000`
-
-### Option B — Local
-
-**Requirements:** SWI-Prolog, Python 3.10+
-
-```bash
-pip install -r requirements.txt
-cp .env.example .env
-# Fill in API keys
-
-python backend/app.py
-```
 
 ---
 
