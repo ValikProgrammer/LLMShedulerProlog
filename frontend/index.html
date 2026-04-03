@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Scheduler</title>
+
+  <!-- FullCalendar -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">📅</span>
+        <span class="logo-text">Smart Scheduler</span>
+      </div>
+      <p class="logo-sub">Prolog · Claude · Weather</p>
+    </div>
+
+    <!-- LLM Input -->
+    <section class="sidebar-section">
+      <h3 class="section-title">Weekly Request</h3>
+      <textarea
+        id="llm-input"
+        placeholder="Tell me what you need this week...&#10;&#10;e.g. I have a DM deadline on Thursday, want tennis Wed + Fri, need to go to migration office Tuesday morning."
+        rows="5"
+      ></textarea>
+      <div style="display:flex; gap:8px">
+        <button id="btn-request" class="btn btn-primary" style="flex:1">
+          <span class="btn-icon">✨</span> Plan My Week
+        </button>
+        <button id="btn-reset" class="btn btn-outline" title="Clear all constraints and start fresh">
+          ↺
+        </button>
+      </div>
+    </section>
+
+    <!-- Before / After Toggle -->
+    <section class="sidebar-section" id="compare-section" style="display:none">
+      <h3 class="section-title">Compare</h3>
+      <div class="compare-toggle">
+        <button id="btn-before" class="btn btn-outline compare-btn">Before</button>
+        <button id="btn-after" class="btn btn-outline compare-btn active">After</button>
+      </div>
+    </section>
+
+    <!-- Parsed Constraints Preview -->
+    <section class="sidebar-section" id="constraints-section" style="display:none">
+      <h3 class="section-title">Parsed Constraints</h3>
+      <div id="constraints-list" class="constraints-list"></div>
+    </section>
+
+    <!-- Navigation -->
+    <section class="sidebar-section">
+      <h3 class="section-title">Schedule Alternatives</h3>
+      <div class="alt-nav">
+        <button id="btn-prev" class="btn btn-outline" disabled>← Prev</button>
+        <span id="alt-counter" class="alt-counter">— / —</span>
+        <button id="btn-next" class="btn btn-outline" disabled>Next →</button>
+      </div>
+      <p class="alt-hint">Prolog found all valid arrangements. Browse them here.</p>
+    </section>
+
+    <!-- Actions -->
+    <section class="sidebar-section">
+      <h3 class="section-title">Actions</h3>
+      <button id="btn-generate" class="btn btn-secondary">
+        <span class="btn-icon">🔄</span> Regenerate
+      </button>
+      <button id="btn-export" class="btn btn-secondary">
+        <span class="btn-icon">📥</span> Export to Google Calendar
+      </button>
+      <button id="btn-copy-json" class="btn btn-secondary" style="display:none">
+        <span class="btn-icon">📋</span> <span id="btn-copy-json-text">Copy JSON</span>
+      </button>
+    </section>
+
+    <!-- Weather -->
+    <section class="sidebar-section">
+      <h3 class="section-title">Paphos Forecast</h3>
+      <div id="weather-panel" class="weather-panel">
+        <p class="loading-text">Loading...</p>
+      </div>
+    </section>
+
+    <!-- Warnings -->
+    <section class="sidebar-section" id="warnings-section" style="display:none">
+      <h3 class="section-title warnings-title">⚠️ Warnings</h3>
+      <div id="warnings-list" class="warnings-list"></div>
+    </section>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main">
+
+    <!-- Stats Bar -->
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-item">
+        <span class="stat-icon">🎓</span>
+        <div>
+          <div class="stat-value" id="stat-uni">—</div>
+          <div class="stat-label">University</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">📚</span>
+        <div>
+          <div class="stat-value" id="stat-study">—</div>
+          <div class="stat-label">Study</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">💪</span>
+        <div>
+          <div class="stat-value" id="stat-physical">—</div>
+          <div class="stat-label">Physical</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">😴</span>
+        <div>
+          <div class="stat-value" id="stat-sleep">—</div>
+          <div class="stat-label">Sleep</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">🌟</span>
+        <div>
+          <div class="stat-value" id="stat-free">—</div>
+          <div class="stat-label">Free</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display:none">
+      <div class="loading-spinner"></div>
+      <p class="loading-msg" id="loading-msg">Generating schedule...</p>
+    </div>
+
+    <!-- Calendar -->
+    <div id="calendar"></div>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+services:
+  scheduler:
+    build: .
+    container_name: smart-scheduler
+    ports:
+      - "5000:5000"
+
+    # Load environment variables from .env (copy from .env.example first)
+    env_file:
+      - .env
+
+    # Mount data directory so you can edit base_schedule.json without rebuilding
+    volumes:
+      - ./data:/app/data:ro
+
+    # Restart automatically unless manually stopped
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/weather"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
