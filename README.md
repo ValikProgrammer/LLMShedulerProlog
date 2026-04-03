@@ -4,6 +4,7 @@ A personal weekly schedule planner that combines **SWI-Prolog** with **LLM natur
 
 Built as a Programming Paradigms (Prolog) university project.
 
+![interface photo](image.png)
 
 ## Setup
 
